@@ -137,6 +137,14 @@ public class SlidingWindow {
                 boolean similaritySwitching = (increasingP1 && decreasingP2) || (increasingP2 && decreasingP1);
 
                 if(similaritySwitching && majorChange) return RecombinationType.Hard;
+
+                boolean suddenChangeFromOneParentToAnother = thirdLast.moreSimilarTo() == secondLast.moreSimilarTo()
+                        && secondLast.moreSimilarTo() == last.moreSimilarTo()
+                        && last.moreSimilarTo() != currentlySimilarTo
+                        && last.moreSimilarTo() != SimilarTo.Equal
+                        && currentlySimilarTo != SimilarTo.Equal;
+
+                if(suddenChangeFromOneParentToAnother) return RecombinationType.Hard;
             }
         }
 
@@ -167,7 +175,6 @@ public class SlidingWindow {
         return pair.getPercentageOfIdentity(true);
     }
 
-    //da sa napraat s generic funkciq
     private static double localAlignRNA(String window, String parent) throws CompoundNotFoundException {
         RNASequence windowSeq = new RNASequence(window);
         RNASequence parentSeq = new RNASequence(parent);
