@@ -35,7 +35,6 @@ public class SlidingWindow {
 
         int length = recombinantChunk.length();
 
-
         for(int start = 0; start <= length - window; start += step){
             int end = min((start + window), length);
 
