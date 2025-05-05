@@ -16,6 +16,7 @@
               <goal>shade</goal>
             </goals>
             <configuration>
+              <outputFile>${project.basedir}/${project.artifactId}-${project.version}.jar</outputFile>
               <transformers>
                 <transformer>
                   <mainClass>org.example.Main</mainClass>
