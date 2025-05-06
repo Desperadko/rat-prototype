@@ -95,9 +95,9 @@ public class Main {
 
         finalResults.sort(Comparator.comparingInt(AnalysisResult::segmentStartLocation));
 
-        for (AnalysisResult result : finalResults) {
-            System.out.println(result.toString());
-        }
+//        for (AnalysisResult result : finalResults) {
+//            System.out.println(result.toString());
+//        }
 
         long end = System.currentTimeMillis();
         long elapsed = end - start;
