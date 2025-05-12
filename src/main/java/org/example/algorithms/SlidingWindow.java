@@ -56,8 +56,8 @@ public class SlidingWindow {
         int windowStartPosition, int windowEndPosition
     )throws Exception
     {
-        double similarityWithP1 = localAlign(recombinantWindow, parent1, sequenceType);
-        double similarityWithP2 = localAlign(recombinantWindow, parent2, sequenceType);
+        double similarityWithP1 = SmithWaterman.localAlign(recombinantWindow, parent1, sequenceType);
+        double similarityWithP2 = SmithWaterman.localAlign(recombinantWindow, parent2, sequenceType);
 
         SimilarTo moreSimilarTo;
         if(similarityWithP1 > similarityWithP2) moreSimilarTo = SimilarTo.FirstParent;
@@ -150,41 +150,5 @@ public class SlidingWindow {
         if(flippedDirectly) return RecombinationType.Ambiguous;
 
         return RecombinationType.None;
-    }
-
-    private static double localAlign(String window, String parent, String sequenceType) throws Exception {
-        return switch (sequenceType){
-            case "d" -> localAlignDNA(window, parent);
-            case "r" -> localAlignRNA(window, parent);
-            default -> throw new Exception("Unknown sequence type: '" + sequenceType + "' ..");
-        };
-    }
-
-    private static double localAlignDNA(String window, String parent) throws CompoundNotFoundException {
-        DNASequence windowSeq = new DNASequence(window);
-        DNASequence parentSeq = new DNASequence(parent);
-
-        SequencePair<DNASequence, NucleotideCompound> pair = Alignments.getPairwiseAlignment(
-                windowSeq,
-                parentSeq,
-                Alignments.PairwiseSequenceAlignerType.LOCAL,
-                new SimpleGapPenalty(),
-                SubstitutionMatrixHelper.getNuc4_4());
-
-        return pair.getPercentageOfIdentity(true);
-    }
-
-    private static double localAlignRNA(String window, String parent) throws CompoundNotFoundException {
-        RNASequence windowSeq = new RNASequence(window);
-        RNASequence parentSeq = new RNASequence(parent);
-
-        SequencePair<RNASequence, NucleotideCompound> pair = Alignments.getPairwiseAlignment(
-                windowSeq,
-                parentSeq,
-                Alignments.PairwiseSequenceAlignerType.LOCAL,
-                new SimpleGapPenalty(),
-                SubstitutionMatrixHelper.getNuc4_4());
-
-        return pair.getPercentageOfIdentity(true);
     }
 }
